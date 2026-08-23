@@ -50,4 +50,5 @@ tmp/
 Thumbs.db
 .idea/
 .vscode/
-.bb/
+.bb/*
+!.bb/plugins.json

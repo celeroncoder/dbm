@@ -9,7 +9,7 @@ existing query/schema/table explorer through BB RPC, CLI, and a Databases panel.
 
 ```sh
 npm install --install-links
-bb plugin types
+bb plugin types --check
 npm run check
 npm run test
 npm run build
@@ -42,3 +42,14 @@ fallback is not available.
 
 Read the packaged [dbm-management skill](skills/dbm-management/SKILL.md) for
 the full agent workflow and cleanup contract.
+
+## Install a tagged release
+
+```sh
+bb plugin install git:https://github.com/celeroncoder/dbm.git@0.1.0 --plugin dbm --yes
+bb plugin list
+bb dbm images
+```
+
+Tagged installs use the root `.bb/plugins.json` collection manifest and keep
+the plugin aligned with the CLI and reusable core at the same version.

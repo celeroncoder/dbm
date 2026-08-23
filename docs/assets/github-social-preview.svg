@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" role="img" aria-labelledby="title description">
+  <title id="title">dbm GitHub social preview</title>
+  <desc id="description">dbm, the local Docker database explorer.</desc>
+  <defs>
+    <radialGradient id="glow" cx="20%" cy="20%" r="90%">
+      <stop offset="0" stop-color="#173c34"/>
+      <stop offset="0.52" stop-color="#0d1719"/>
+      <stop offset="1" stop-color="#080b10"/>
+    </radialGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="640" fill="url(#glow)"/>
+  <path d="M0 510C260 420 430 590 690 500s400-60 590 8v132H0Z" fill="#67e8b3" opacity="0.045"/>
+  <g transform="translate(112 150)" filter="url(#shadow)">
+    <rect width="240" height="240" rx="54" fill="#11191f" stroke="#294039" stroke-width="2"/>
+    <g transform="translate(40 37)" fill="none" stroke="#67e8b3" stroke-linecap="round" stroke-linejoin="round" stroke-width="13">
+      <path d="M0 28C0 12.5 35.8 0 80 0s80 12.5 80 28-35.8 28-80 28S0 43.5 0 28Z"/>
+      <path d="M0 28v54c0 15.5 35.8 28 80 28s80-12.5 80-28V28"/>
+      <path d="M0 82v54c0 15.5 35.8 28 80 28s80-12.5 80-28V82"/>
+    </g>
+  </g>
+  <g font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="416" y="310" fill="#f4f7f6" font-size="172" font-weight="760" letter-spacing="-11">dbm</text>
+    <text x="424" y="374" fill="#9fb0ac" font-size="35" font-weight="500">Local Docker database explorer</text>
+    <g transform="translate(424 424)" font-size="21" font-weight="650">
+      <rect width="142" height="48" rx="24" fill="#172821" stroke="#315c4c"/>
+      <text x="71" y="31" fill="#8df1c5" text-anchor="middle">Postgres</text>
+      <rect x="154" width="112" height="48" rx="24" fill="#172821" stroke="#315c4c"/>
+      <text x="210" y="31" fill="#8df1c5" text-anchor="middle">MySQL</text>
+      <rect x="278" width="104" height="48" rx="24" fill="#172821" stroke="#315c4c"/>
+      <text x="330" y="31" fill="#8df1c5" text-anchor="middle">Redis</text>
+      <rect x="394" width="132" height="48" rx="24" fill="#172821" stroke="#315c4c"/>
+      <text x="460" y="31" fill="#8df1c5" text-anchor="middle">MongoDB</text>
+    </g>
+  </g>
+</svg>
