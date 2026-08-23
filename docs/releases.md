@@ -29,8 +29,8 @@ users update or roll back through their global Bun installation.
     commands, supported image tags, compatibility notes, and known issues.
 11. Test uninstall and reinstall. Once a prior version exists, test rollback
     to that version as well.
-12. Submit the BB plugin to the community marketplace only after the first
-    tagged release installs cleanly from Git.
+12. Keep the BB plugin GitHub-only unless a later release explicitly approves
+    a community marketplace submission.
 
 The first release target is `v0.1.0`. The MIT license and GitHub-only
 distribution method are approved, and the clean-machine install path must pass

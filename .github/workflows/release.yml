@@ -62,7 +62,8 @@ jobs:
           upload-artifact: false
           upload-release-assets: false
       - name: Generate checksums
-        run: sha256sum dist-release/*.tgz dist-release/*.spdx.json > dist-release/SHA256SUMS
+        working-directory: dist-release
+        run: sha256sum *.tgz *.spdx.json > SHA256SUMS
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
