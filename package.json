@@ -1,6 +1,7 @@
 {
   "name": "@celeroncoder/dbm",
   "version": "0.1.0",
+  "private": true,
   "description": "Explore local Docker databases without connection strings.",
   "license": "MIT",
   "type": "module",
@@ -28,10 +29,6 @@
   },
   "homepage": "https://github.com/celeroncoder/dbm#readme",
   "author": "Khushal Bhardwaj",
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
   "keywords": [
     "database",
     "docker",

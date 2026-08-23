@@ -16,18 +16,12 @@ The terminal CLI explores any supported local container. The optional BB plugin 
 
 ## Install the CLI
 
-The published package name is `@celeroncoder/dbm`; the command is `dbm`. Bun 1.4 or newer and a working Docker engine are required.
+The CLI ships as a versioned package tarball on GitHub Releases; the command is `dbm`. Bun 1.4 or newer and a working Docker engine are required.
 
 ```sh
-bun add --global @celeroncoder/dbm
-dbm
-```
-
-An npm global install also works when Bun is already available on `PATH`:
-
-```sh
-npm install --global @celeroncoder/dbm
+bun add --global https://github.com/celeroncoder/dbm/releases/download/v0.1.0/celeroncoder-dbm-0.1.0.tgz
 dbm --version
+dbm
 ```
 
 To remove it:

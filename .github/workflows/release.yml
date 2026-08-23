@@ -7,12 +7,10 @@ on:
 
 permissions:
   contents: write
-  actions: read
-  id-token: write
 
 jobs:
   release:
-    name: Validate and publish
+    name: Validate and release
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -22,11 +20,6 @@ jobs:
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: 1.4.0
-      - name: Set up Node for npm publishing
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: 24
-          registry-url: https://registry.npmjs.org
       - name: Validate release metadata
         run: |
           test "v$(node -p "require('./package.json').version")" = "${GITHUB_REF_NAME}"
@@ -55,7 +48,7 @@ jobs:
           npm run build
       - name: Verify all database adapters against Docker
         run: bun run verify:docker
-      - name: Pack npm artifact
+      - name: Pack release artifact
         run: |
           mkdir dist-release
           bun pm pack --destination dist-release
@@ -70,18 +63,10 @@ jobs:
           upload-release-assets: false
       - name: Generate checksums
         run: sha256sum dist-release/*.tgz dist-release/*.spdx.json > dist-release/SHA256SUMS
-      - name: Create draft GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release create "${GITHUB_REF_NAME}" dist-release/* --draft --verify-tag --title "dbm ${GITHUB_REF_NAME}" --notes-file ".github/release-notes/${GITHUB_REF_NAME}.md"
-      - name: Publish npm package with provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish dist-release/*.tgz --access public --provenance
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release edit "${GITHUB_REF_NAME}" --draft=false --latest
+        run: gh release create "${GITHUB_REF_NAME}" dist-release/* --latest --verify-tag --title "dbm ${GITHUB_REF_NAME}" --notes-file ".github/release-notes/${GITHUB_REF_NAME}.md"
       - name: Prove exact Docker cleanup
         if: always()
         run: |

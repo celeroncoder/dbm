@@ -13,8 +13,8 @@ and Semantic Versioning.
   verification for all four database adapters.
 - `dbm doctor`, versioned JSON diagnostics, and bash, zsh, and fish
   completions.
-- Release automation for npm provenance, SPDX SBOMs, checksums, and draft
-  GitHub Releases.
+- Release automation for GitHub-hosted package tarballs, SPDX SBOMs, and
+  checksums.
 - Security, contribution, support, architecture, Docker safety, adapter,
   troubleshooting, and BB plugin documentation.
 - GitHub issue forms, pull request checklist, and BB collection manifest.

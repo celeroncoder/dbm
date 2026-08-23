@@ -19,10 +19,11 @@ bun install
 bun run dev
 ```
 
-For the public package, install and remove the `dbm` command with:
+For the public GitHub Release package, install and remove the `dbm` command
+with:
 
 ```sh
-bun add --global @celeroncoder/dbm
+bun add --global https://github.com/celeroncoder/dbm/releases/download/v0.1.0/celeroncoder-dbm-0.1.0.tgz
 dbm --version
 bun remove --global @celeroncoder/dbm
 ```
@@ -57,7 +58,9 @@ bun run link:global
 dbm
 ```
 
-Use `bun run unlink:global` when the link is no longer needed. Do not publish or install a stale registry version for local development when the goal is to exercise current code.
+Use `bun run unlink:global` when the link is no longer needed. Do not install a
+stale release artifact for local development when the goal is to exercise
+current code.
 
 ## Verification workflow
 
