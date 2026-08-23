@@ -93,7 +93,7 @@ dbm
 bun run unlink:global
 ```
 
-This is a development path. Do not use a registry copy when the goal is to
+This is a development path. Do not use a release artifact when the goal is to
 exercise local source changes.
 
 ## Keep public behavior aligned
