@@ -1,6 +1,6 @@
 {
   "name": "bb-plugin-dbm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "BB Databases panel and CLI for local Docker databases.",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "@radix-ui/react-slot": "^1.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dbm": "file:..",
+    "@celeroncoder/dbm-core": "file:./core",
     "effect": "4.0.0-beta.107",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.6"

@@ -1,13 +1,13 @@
 import { Duration, Effect, Layer, ManagedRuntime } from "effect"
-import { DatabaseAdapterRegistryLive } from "../src/core/adapters"
-import { CommandRunnerNodeLive } from "../src/core/command"
-import { DatabaseDiscovery, DatabaseDiscoveryLive } from "../src/core/discovery"
-import { DatabaseAdapterRegistry } from "../src/core/explorer"
-import { DatabaseManager, DatabaseManagerLive, managedToDetectedDatabase } from "../src/core/manager"
-import { DockerClient, DockerClientLive } from "../src/core/docker"
-import type { DatabaseAdapter } from "../src/core/explorer"
-import { databaseKinds } from "../src/core/model"
-import type { DatabaseKind, ManagedDatabase, TableInfo } from "../src/core/model"
+import { DatabaseAdapterRegistryLive } from "../bb-plugin-dbm/core/src/adapters"
+import { CommandRunnerNodeLive } from "../bb-plugin-dbm/core/src/command"
+import { DatabaseDiscovery, DatabaseDiscoveryLive } from "../bb-plugin-dbm/core/src/discovery"
+import { DatabaseAdapterRegistry } from "../bb-plugin-dbm/core/src/explorer"
+import { DatabaseManager, DatabaseManagerLive, managedToDetectedDatabase } from "../bb-plugin-dbm/core/src/manager"
+import { DockerClient, DockerClientLive } from "../bb-plugin-dbm/core/src/docker"
+import type { DatabaseAdapter } from "../bb-plugin-dbm/core/src/explorer"
+import { databaseKinds } from "../bb-plugin-dbm/core/src/model"
+import type { DatabaseKind, ManagedDatabase, TableInfo } from "../bb-plugin-dbm/core/src/model"
 
 const DockerLive = DockerClientLive.pipe(Layer.provide(CommandRunnerNodeLive))
 const ManagerLive = DatabaseManagerLive.pipe(Layer.provide(DockerLive))

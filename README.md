@@ -19,7 +19,7 @@ The terminal CLI explores any supported local container. The optional BB plugin 
 The CLI ships as a versioned package tarball on GitHub Releases; the command is `dbm`. Bun 1.4 or newer and a working Docker engine are required.
 
 ```sh
-bun add --global https://github.com/celeroncoder/dbm/releases/download/v0.1.0/celeroncoder-dbm-0.1.0.tgz
+bun add --global https://github.com/celeroncoder/dbm/releases/download/v0.1.1/celeroncoder-dbm-0.1.1.tgz
 dbm --version
 dbm
 ```
@@ -54,7 +54,7 @@ Docker daemon access is effectively root access to the host. Use dbm only on a t
 The repository is a BB plugin collection. Install a tagged release from GitHub, then verify the plugin and its CLI surface:
 
 ```sh
-bb plugin install git:https://github.com/celeroncoder/dbm.git@0.1.0 --plugin dbm --yes
+bb plugin install git:https://github.com/celeroncoder/dbm.git@v0.1.1 --plugin dbm --yes
 bb plugin list
 bb dbm images
 bb dbm create postgres local-postgres
@@ -142,7 +142,7 @@ Plugin development uses its own lockfile:
 
 ```sh
 cd bb-plugin-dbm
-npm ci --install-links
+npm ci
 npx bb plugin types --check
 npm run check
 npm run test

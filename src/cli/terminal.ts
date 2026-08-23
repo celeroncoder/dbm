@@ -1,5 +1,5 @@
 import { Context, Effect, Layer } from "effect"
-import { InputError } from "../core/errors"
+import { InputError } from "../../bb-plugin-dbm/core/src/errors"
 
 export class Terminal extends Context.Service<Terminal, {
   readonly readLine: (message: string) => Effect.Effect<string, InputError>
