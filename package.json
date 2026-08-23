@@ -1,0 +1,30 @@
+{
+  "name": "dbm",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core/*": "./src/core/*.ts"
+  },
+  "scripts": {
+    "prepare": "./scripts/prepare-effect.sh",
+    "dev": "bun run src/main.ts",
+    "start": "bun run src/main.ts",
+    "link:global": "./scripts/link-global.sh",
+    "unlink:global": "./scripts/unlink-global.sh",
+    "check": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "bin": {
+    "dbm": "src/main.ts"
+  },
+  "dependencies": {
+    "effect": "^4.0.0-beta.107"
+  },
+  "devDependencies": {
+    "@effect/vitest": "^4.0.0-beta.107",
+    "@types/bun": "^1.4.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  }
+}
