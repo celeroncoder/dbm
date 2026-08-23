@@ -1,0 +1,25 @@
+name: Feature request
+description: Describe a missing workflow before proposing an API.
+title: "feature: "
+labels:
+  - feature
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is slow, unsafe, confusing, or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Expected workflow
+      description: Describe the user steps and result without prescribing internals.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API or UI
+      description: Optional. Include tradeoffs and alternatives you considered.

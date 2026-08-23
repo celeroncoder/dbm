@@ -70,7 +70,7 @@ const makeDatabaseDiscovery = Effect.gen(function* () {
       )
 
       databases.push({
-        id: container.id,
+        id: details.id,
         name: details.name,
         image: details.image,
         kind,

@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto"
-import { Context, Duration, Effect, Layer } from "effect"
+import { Context, Duration, Effect, Layer, Option } from "effect"
 import { detectDatabaseKind } from "./discovery"
 import { DockerClient } from "./docker"
 import { DockerOperationError } from "./errors"
@@ -89,8 +89,8 @@ const templateFor = (kind: DatabaseKind): DatabaseTemplate => {
   }
 }
 
-const normalizeAlias = (value: string | undefined, kind: DatabaseKind, suffix: string): string => {
-  const normalized = value?.trim().replace(/[^a-zA-Z0-9_.-]+/g, "-").replace(/^-+|-+$/g, "")
+export const normalizeDatabaseAlias = (value: string | undefined, kind: DatabaseKind, suffix: string): string => {
+  const normalized = value?.trim().toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/-+/g, "-").replace(/^-+|-+$/g, "")
   return normalized === undefined || normalized === "" ? `${kind}-${suffix}` : normalized.slice(0, 48)
 }
 
@@ -257,10 +257,15 @@ const makeDatabaseManager = Effect.gen(function* () {
       environment: {},
       labels: fallbackLabels
     }
-    const details = yield* docker.inspectContainer(summary.id).pipe(
-      Effect.catch(() => Effect.succeed(fallback))
-    )
-    const labels = Object.keys(details.labels).length === 0 ? fallbackLabels : details.labels
+    const inspected = yield* docker.inspectContainer(summary.id).pipe(Effect.option)
+    const details = Option.getOrElse(inspected, () => fallback)
+    const labels = Option.isSome(inspected) ? inspected.value.labels : fallbackLabels
+    if (labels[dbmManagedLabel] !== "true") {
+      return yield* Effect.fail(operationError(
+        "read managed database",
+        `Refusing container ${summary.name} because it is not labelled ${dbmManagedLabel}=true.`
+      ))
+    }
     const kind = kindFrom(labels[dbmKindLabel]) ?? detectDatabaseKind(details.image, details.name)
     if (kind === undefined) {
       return yield* Effect.fail(operationError("read managed database", `Unsupported database container ${details.name}.`))
@@ -299,6 +304,23 @@ const makeDatabaseManager = Effect.gen(function* () {
       : database
   })
 
+  const getOwnedContainerId = Effect.fn("DatabaseManager.getOwnedContainerId")(function* (id: string) {
+    const database = yield* get(id)
+    const details = yield* docker.inspectContainer(database.id).pipe(
+      Effect.mapError((error) => operationError(
+        "validate managed database ownership",
+        `Could not inspect ${database.name}; refusing lifecycle operation. ${error.message}`
+      ))
+    )
+    if (details.labels[dbmManagedLabel] !== "true") {
+      return yield* Effect.fail(operationError(
+        "validate managed database ownership",
+        `Refusing container ${database.name} because it is not labelled ${dbmManagedLabel}=true.`
+      ))
+    }
+    return details.id
+  })
+
   const readyCheck = Effect.fn("DatabaseManager.readyCheck")(function* (
     database: ManagedDatabase
   ) {
@@ -309,10 +331,13 @@ const makeDatabaseManager = Effect.gen(function* () {
           "-d", environment.POSTGRES_DB ?? "postgres"
         ])
       : database.kind === "mysql"
-        ? docker.exec(database.id, "mysqladmin", [
+        ? docker.exec(database.id, "mysql", [
             "--protocol=socket",
+            "--batch",
+            "--skip-column-names",
             "-u", environment.MYSQL_USER ?? "root",
-            "ping"
+            "-e", "SELECT 1",
+            ...(environment.MYSQL_DATABASE === undefined ? [] : [environment.MYSQL_DATABASE])
           ], environment.MYSQL_PASSWORD === undefined ? {} : { MYSQL_PWD: environment.MYSQL_PASSWORD })
         : database.kind === "redis"
           ? docker.exec(database.id, "redis-cli", ["PING"], environment.REDIS_PASSWORD === undefined ? {} : { REDISCLI_AUTH: environment.REDIS_PASSWORD })
@@ -362,7 +387,7 @@ const makeDatabaseManager = Effect.gen(function* () {
     yield* ensureDocker()
     const template = templateFor(request.kind)
     const suffix = randomUUID().slice(0, 8)
-    const alias = normalizeAlias(request.alias, request.kind, suffix)
+    const alias = normalizeDatabaseAlias(request.alias, request.kind, suffix)
     const name = containerNameFor(alias, suffix)
     const labels = [
       "--label", `${dbmManagedLabel}=true`,
@@ -371,7 +396,7 @@ const makeDatabaseManager = Effect.gen(function* () {
       "--label", `${dbmVersionLabel}=1`
     ]
     const environment = Object.entries(template.environment).flatMap(([key, value]) => ["--env", `${key}=${value}`])
-    yield* docker.run([
+    const createResult = yield* docker.run([
       "run",
       "--detach",
       "--name", name,
@@ -383,22 +408,24 @@ const makeDatabaseManager = Effect.gen(function* () {
       displayCommand: `docker run --detach --name ${name} ${template.image}`,
       timeoutMs: 120_000
     })
-    const database = yield* list().pipe(
+    const createdId = createResult.stdout.trim()
+    return yield* list().pipe(
       Effect.flatMap((databases) => {
-        const created = databases.find((entry) => entry.name === name)
+        const created = databases.find((entry) => entry.id === createdId || entry.name === name)
         return created === undefined
           ? Effect.fail(operationError("read created database", `Docker created ${name}, but it was not found.`))
           : Effect.succeed(created)
-      })
+      }),
+      Effect.flatMap((database) => waitUntilDatabaseReady(database)),
+      Effect.tapError(() => docker.remove(createdId).pipe(Effect.ignore))
     )
-    return yield* waitUntilDatabaseReady(database)
   })
 
   const withLifecycle = (operation: string, action: (id: string) => Effect.Effect<void, DockerOperationError>) =>
     Effect.fn(`DatabaseManager.${operation}`)(function* (id: string) {
-      const database = yield* get(id)
-      yield* action(database.id)
-      return yield* get(database.id)
+      const ownedId = yield* getOwnedContainerId(id)
+      yield* action(ownedId)
+      return yield* get(ownedId)
     })
 
   const start = withLifecycle("start", docker.start)
@@ -408,8 +435,8 @@ const makeDatabaseManager = Effect.gen(function* () {
   const stop = withLifecycle("stop", docker.stop)
 
   const remove = Effect.fn("DatabaseManager.remove")(function* (id: string) {
-    const database = yield* get(id)
-    yield* docker.remove(database.id)
+    const ownedId = yield* getOwnedContainerId(id)
+    yield* docker.remove(ownedId)
   })
 
   const logs = Effect.fn("DatabaseManager.logs")(function* (id: string, tail = 200) {

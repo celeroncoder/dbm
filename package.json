@@ -1,7 +1,46 @@
 {
-  "name": "dbm",
-  "private": true,
+  "name": "@celeroncoder/dbm",
+  "version": "0.1.0",
+  "description": "Explore local Docker databases without connection strings.",
+  "license": "MIT",
   "type": "module",
+  "files": [
+    "src",
+    "scripts/prepare-effect.sh",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "docs",
+    "examples"
+  ],
+  "engines": {
+    "bun": ">=1.4.0"
+  },
+  "packageManager": "bun@1.4.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/celeroncoder/dbm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/celeroncoder/dbm/issues"
+  },
+  "homepage": "https://github.com/celeroncoder/dbm#readme",
+  "author": "Khushal Bhardwaj",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "keywords": [
+    "database",
+    "docker",
+    "postgres",
+    "mysql",
+    "redis",
+    "mongodb",
+    "cli"
+  ],
   "exports": {
     ".": "./src/index.ts",
     "./core/*": "./src/core/*.ts"
@@ -12,6 +51,8 @@
     "start": "bun run src/main.ts",
     "link:global": "./scripts/link-global.sh",
     "unlink:global": "./scripts/unlink-global.sh",
+    "check:repository": "./scripts/check-repository-safety.sh",
+    "verify:docker": "bun run scripts/verify-plugin.ts",
     "check": "tsc --noEmit",
     "test": "vitest run"
   },

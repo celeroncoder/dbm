@@ -180,6 +180,24 @@ const isMissingDockerImage = (error: DockerOperationError): boolean => {
     message.includes("unable to find image")
 }
 
+const containerReferencePattern = /^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,127}$/
+
+export const isSafeContainerReference = (value: string): boolean =>
+  containerReferencePattern.test(value)
+
+const validateContainerReference = (
+  value: string,
+  operation: string
+): Effect.Effect<void, DockerOperationError> =>
+  isSafeContainerReference(value)
+    ? Effect.void
+    : Effect.fail(
+        DockerOperationError.make({
+          operation,
+          message: `Refusing unsafe container reference ${JSON.stringify(value)}.`
+        })
+      )
+
 const parseEnvironment = (text: string): Effect.Effect<Readonly<Record<string, string>>, DockerOperationError> =>
   decodeJson(Schema.Array(Schema.String), text, "parse container environment").pipe(
     Effect.map((entries) =>
@@ -300,8 +318,9 @@ const makeDockerClient = Effect.gen(function* () {
   })
 
   const inspectContainer = Effect.fn("DockerClient.inspectContainer")(function* (containerId: string) {
+    yield* validateContainerReference(containerId, "inspect container")
     const readTemplate = (template: string, operation: string) =>
-      runDocker(runner, operation, ["inspect", "--format", template, containerId]).pipe(
+      runDocker(runner, operation, ["inspect", "--format", template, "--", containerId]).pipe(
         Effect.map((result) => result.stdout.trim())
       )
 
@@ -330,11 +349,12 @@ const makeDockerClient = Effect.gen(function* () {
     args: ReadonlyArray<string>,
     env?: Readonly<Record<string, string>>
   ) {
+    yield* validateContainerReference(containerId, `execute ${command} in container`)
     const envArgs = env === undefined ? [] : Object.entries(env).flatMap(([key, value]) => ["-e", `${key}=${value}`])
     return yield* runDocker(
       runner,
       `execute ${command} in ${containerId}`,
-      ["exec", ...envArgs, containerId, command, ...args],
+      ["exec", ...envArgs, "--", containerId, command, ...args],
       {
         displayCommand: `docker exec ${containerId} ${command}`,
         timeoutMs: 60_000,
@@ -351,7 +371,8 @@ const makeDockerClient = Effect.gen(function* () {
   })
 
   const lifecycle = (operation: string, command: string) => Effect.fn(`DockerClient.${command}`)(function* (containerId: string) {
-    yield* runDocker(runner, operation, [command, containerId])
+    yield* validateContainerReference(containerId, operation)
+    yield* runDocker(runner, operation, [command, "--", containerId])
   })
 
   const start = lifecycle("start container", "start")
@@ -360,11 +381,13 @@ const makeDockerClient = Effect.gen(function* () {
   const unpause = lifecycle("unpause container", "unpause")
   const stop = lifecycle("stop container", "stop")
   const remove = Effect.fn("DockerClient.remove")(function* (containerId: string) {
-    yield* runDocker(runner, "remove container", ["rm", "--force", containerId])
+    yield* validateContainerReference(containerId, "remove container")
+    yield* runDocker(runner, "remove container", ["rm", "--force", "--volumes", "--", containerId])
   })
   const logs = Effect.fn("DockerClient.logs")(function* (containerId: string, tail = 200) {
+    yield* validateContainerReference(containerId, "read container logs")
     const boundedTail = Math.max(1, Math.min(2_000, Math.floor(tail)))
-    return yield* runDocker(runner, "read container logs", ["logs", "--tail", String(boundedTail), containerId])
+    return yield* runDocker(runner, "read container logs", ["logs", "--tail", String(boundedTail), "--", containerId])
   })
 
   return {

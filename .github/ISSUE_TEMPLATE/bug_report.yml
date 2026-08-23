@@ -1,0 +1,64 @@
+name: Bug report
+description: Report a reproducible dbm failure.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Remove credentials, connection URLs, private paths, and production data before submitting.
+  - type: input
+    id: version
+    attributes:
+      label: dbm version
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: macOS 26 arm64 or Ubuntu 24.04 x64
+    validations:
+      required: true
+  - type: input
+    id: bun
+    attributes:
+      label: Bun version
+      placeholder: bun --version
+    validations:
+      required: true
+  - type: input
+    id: docker
+    attributes:
+      label: Docker or OrbStack version
+      placeholder: docker version or orb version
+    validations:
+      required: true
+  - type: input
+    id: image
+    attributes:
+      label: Database image
+      placeholder: postgres:16-alpine
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: List the smallest commands or UI actions that reproduce the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Sanitized output
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/celeroncoder/dbm/security/advisories/new
+    about: Report vulnerabilities without exposing credentials or exploit details.
+  - name: Documentation and troubleshooting
+    url: https://github.com/celeroncoder/dbm/blob/main/docs/troubleshooting.md
+    about: Check common Docker, client, image, and BB plugin failures.

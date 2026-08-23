@@ -1,0 +1,41 @@
+name: Database adapter
+description: Propose support for another Docker database image.
+title: "adapter: "
+labels:
+  - database-adapter
+body:
+  - type: input
+    id: images
+    attributes:
+      label: Images and tested tags
+      placeholder: vendor/database:1.2
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: Native client commands
+      placeholder: client --batch --execute QUERY
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment conventions
+      description: List username, password, database, and initialization variables.
+    validations:
+      required: true
+  - type: textarea
+    id: discovery
+    attributes:
+      label: Discovery signals
+      description: List image names, service names, labels, and common variants.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Browse and query behavior
+      description: Explain schemas, objects, describe output, browse limits, and query result formatting.
+    validations:
+      required: true

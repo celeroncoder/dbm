@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 144" role="img" aria-labelledby="title description">
+  <title id="title">dbm logo</title>
+  <desc id="description">A database cylinder beside the dbm wordmark.</desc>
+  <rect width="144" height="144" rx="32" fill="#0b0f14"/>
+  <g fill="none" stroke="#67e8b3" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
+    <path d="M30 38c0-11 19-20 42-20s42 9 42 20-19 20-42 20-42-9-42-20Z"/>
+    <path d="M30 38v34c0 11 19 20 42 20s42-9 42-20V38"/>
+    <path d="M30 72v34c0 11 19 20 42 20s42-9 42-20V72"/>
+  </g>
+  <text x="174" y="105" fill="#0b0f14" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="94" font-weight="750" letter-spacing="-6">dbm</text>
+</svg>
