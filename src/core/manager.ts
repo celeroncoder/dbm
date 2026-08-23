@@ -90,8 +90,17 @@ const templateFor = (kind: DatabaseKind): DatabaseTemplate => {
 }
 
 export const normalizeDatabaseAlias = (value: string | undefined, kind: DatabaseKind, suffix: string): string => {
-  const normalized = value?.trim().toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/-+/g, "-").replace(/^-+|-+$/g, "")
-  return normalized === undefined || normalized === "" ? `${kind}-${suffix}` : normalized.slice(0, 48)
+  const normalized = value === undefined
+    ? undefined
+    : value
+      .slice(0, 256)
+      .trim()
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((part) => part !== "")
+      .join("-")
+      .slice(0, 48)
+  return normalized === undefined || normalized === "" ? `${kind}-${suffix}` : normalized
 }
 
 const containerNameFor = (alias: string, suffix: string): string =>

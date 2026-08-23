@@ -170,6 +170,7 @@ describe("managed database safety", () => {
     assert.strictEqual(normalizeDatabaseAlias("  PROD DB; --privileged  ", "postgres", "1234"), "prod-db-privileged")
     assert.strictEqual(normalizeDatabaseAlias("---", "redis", "1234"), "redis-1234")
     assert.strictEqual(normalizeDatabaseAlias("A".repeat(80), "mongo", "1234").length, 48)
+    assert.strictEqual(normalizeDatabaseAlias("-".repeat(100_000), "mysql", "1234"), "mysql-1234")
   })
 
   it.effect("waits for readiness when create is composed through flatMap", () => {
