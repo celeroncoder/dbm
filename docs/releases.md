@@ -18,7 +18,7 @@ users update or roll back through their global Bun installation.
 1. Confirm root and plugin versions match.
 2. Confirm the changelog describes the release and has a release date.
 3. Run `bun install --frozen-lockfile`, root checks, and repository safety.
-4. Run plugin `npm ci --install-links`, SDK type check, tests, and build.
+4. Run plugin `npm ci`, SDK type check, tests, and build.
 5. Pack the CLI from a clean checkout and inspect every included file.
 6. Install the packed artifact into an isolated Bun prefix and test the
    documented command and uninstall path.
@@ -32,7 +32,7 @@ users update or roll back through their global Bun installation.
 12. Keep the BB plugin GitHub-only unless a later release explicitly approves
     a community marketplace submission.
 
-The first release target is `v0.1.0`. The MIT license and GitHub-only
-distribution method are approved, and the clean-machine install path must pass
-before the tag is created. The root package stays private to prevent an
-accidental registry publication.
+`v0.1.0` established the GitHub-hosted CLI artifact. `v0.1.1` is the first
+tag with a clean managed BB Git source install. The MIT license and GitHub-only
+distribution method are approved. The root package stays private to prevent
+an accidental registry publication.

@@ -1,7 +1,7 @@
 # Adapter authoring
 
 An adapter translates a database image's native client into the shared
-`DatabaseAdapter` interface in `src/core/explorer.ts`.
+`DatabaseAdapter` interface in `bb-plugin-dbm/core/src/explorer.ts`.
 
 ## Contract
 

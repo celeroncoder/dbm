@@ -20,7 +20,7 @@ Set up the BB plugin separately with Node 22, npm, and BB 0.39 or newer:
 
 ```sh
 cd bb-plugin-dbm
-npm ci --install-links
+npm ci
 bb plugin types --check
 npm run check
 npm run test
@@ -29,8 +29,8 @@ npm run build
 
 ## Code map
 
-- `src/core` contains reusable Effect services, Docker boundaries, discovery,
-  adapters, exploration, and managed-instance behavior.
+- `bb-plugin-dbm/core` contains the reusable Effect services, Docker
+  boundaries, discovery, adapters, exploration, and managed-instance behavior.
 - `src/cli` contains the Bun terminal outlet.
 - `bb-plugin-dbm` contains the BB server, RPC/CLI wiring, Databases panel, and
   packaged agent skill.

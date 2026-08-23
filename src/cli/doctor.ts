@@ -1,9 +1,9 @@
 import { Effect } from "effect"
-import { CommandRunner } from "../core/command"
-import { DatabaseDiscovery } from "../core/discovery"
-import { DockerClient } from "../core/docker"
-import { DatabaseAdapterRegistry } from "../core/explorer"
-import type { DatabaseKind } from "../core/model"
+import { CommandRunner } from "../../bb-plugin-dbm/core/src/command"
+import { DatabaseDiscovery } from "../../bb-plugin-dbm/core/src/discovery"
+import { DockerClient } from "../../bb-plugin-dbm/core/src/docker"
+import { DatabaseAdapterRegistry } from "../../bb-plugin-dbm/core/src/explorer"
+import type { DatabaseKind } from "../../bb-plugin-dbm/core/src/model"
 
 export interface DoctorCommandCheck {
   readonly available: boolean

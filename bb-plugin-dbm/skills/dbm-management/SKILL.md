@@ -13,7 +13,7 @@ only containers it created and labelled with `com.dbm.managed=true`.
 Install a tagged public release through the repository collection:
 
 ```sh
-bb plugin install git:https://github.com/celeroncoder/dbm.git@0.1.0 --plugin dbm --yes
+bb plugin install git:https://github.com/celeroncoder/dbm.git@v0.1.1 --plugin dbm --yes
 bb plugin list
 bb dbm images
 ```
@@ -22,7 +22,7 @@ For development from the repository root:
 
 ```sh
 cd bb-plugin-dbm
-npm ci --install-links
+npm ci
 bb plugin types --check
 npm run check
 npm run test

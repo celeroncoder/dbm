@@ -23,7 +23,7 @@ For the public GitHub Release package, install and remove the `dbm` command
 with:
 
 ```sh
-bun add --global https://github.com/celeroncoder/dbm/releases/download/v0.1.0/celeroncoder-dbm-0.1.0.tgz
+bun add --global https://github.com/celeroncoder/dbm/releases/download/v0.1.1/celeroncoder-dbm-0.1.1.tgz
 dbm --version
 bun remove --global @celeroncoder/dbm
 ```

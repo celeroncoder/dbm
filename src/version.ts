@@ -1,1 +1,1 @@
-export const dbmVersion = "0.1.0"
+export const dbmVersion = "0.1.1"

@@ -1,12 +1,13 @@
 {
   "name": "@celeroncoder/dbm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Explore local Docker databases without connection strings.",
   "license": "MIT",
   "type": "module",
   "files": [
     "src",
+    "bb-plugin-dbm/core",
     "scripts/prepare-effect.sh",
     "LICENSE",
     "README.md",
@@ -40,7 +41,8 @@
   ],
   "exports": {
     ".": "./src/index.ts",
-    "./core/*": "./src/core/*.ts"
+    "./core/adapters": "./bb-plugin-dbm/core/src/adapters/index.ts",
+    "./core/*": "./bb-plugin-dbm/core/src/*.ts"
   },
   "scripts": {
     "prepare": "./scripts/prepare-effect.sh",

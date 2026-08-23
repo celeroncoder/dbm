@@ -1,10 +1,10 @@
 import { Console, Duration, Effect, Layer } from "effect"
-import { DatabaseAdapterRegistryLive } from "../src/core/adapters"
-import { CommandRunnerLive } from "../src/core/command-bun"
-import { DatabaseDiscovery, DatabaseDiscoveryLive } from "../src/core/discovery"
-import { DockerClient, DockerClientLive } from "../src/core/docker"
-import { InputError } from "../src/core/errors"
-import { DatabaseExplorer, DatabaseExplorerLive } from "../src/core/explorer"
+import { DatabaseAdapterRegistryLive } from "../bb-plugin-dbm/core/src/adapters"
+import { CommandRunnerLive } from "../bb-plugin-dbm/core/src/command-bun"
+import { DatabaseDiscovery, DatabaseDiscoveryLive } from "../bb-plugin-dbm/core/src/discovery"
+import { DockerClient, DockerClientLive } from "../bb-plugin-dbm/core/src/docker"
+import { InputError } from "../bb-plugin-dbm/core/src/errors"
+import { DatabaseExplorer, DatabaseExplorerLive } from "../bb-plugin-dbm/core/src/explorer"
 import {
   renderColumns,
   renderDatabaseList,

@@ -1,0 +1,14 @@
+{
+  "name": "@celeroncoder/dbm-core",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./adapters": "./src/adapters/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "effect": "^4.0.0-beta.107"
+  }
+}

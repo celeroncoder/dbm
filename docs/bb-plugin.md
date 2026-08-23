@@ -5,7 +5,7 @@
 The repository collection manifest points BB at `bb-plugin-dbm`:
 
 ```sh
-bb plugin install git:https://github.com/celeroncoder/dbm.git@0.1.0 --plugin dbm --yes
+bb plugin install git:https://github.com/celeroncoder/dbm.git@v0.1.1 --plugin dbm --yes
 bb plugin reload dbm
 bb dbm images
 ```
@@ -14,7 +14,7 @@ For local plugin development:
 
 ```sh
 cd bb-plugin-dbm
-npm ci --install-links
+npm ci
 bb plugin types --check
 npm run check
 npm run test
@@ -57,10 +57,13 @@ updates with `bb plugin outdated` and `bb plugin update`, then inspect
 
 ## Packaging boundary
 
-The plugin server runs under Node and imports the root package through its
-local file dependency. Production artifacts are built by `bb plugin build`.
-The app and server metadata record the plugin version and SDK version used for
-the build.
+The plugin server runs under Node and imports the shared core package nested
+inside `bb-plugin-dbm`. BB builds managed Git installs from source, so keeping
+that local package within the plugin root lets npm and the BB bundler resolve
+its transitive dependencies without a repository-level install. The root CLI
+packages and re-exports the same core source. Production artifacts are built
+by `bb plugin build`; their metadata records the plugin and SDK versions used
+for the build.
 
 See [Docker safety](docker-safety.md) for ownership, credentials, ports, and
 cleanup behavior.

@@ -11,5 +11,5 @@
     "skipLibCheck": true,
     "types": ["bun"]
   },
-  "include": ["src", "test", "scripts"]
+  "include": ["src", "test", "scripts", "bb-plugin-dbm/core/src"]
 }

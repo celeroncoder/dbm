@@ -5,6 +5,15 @@ and Semantic Versioning.
 
 ## Unreleased
 
+## [0.1.1] - 2026-08-23
+
+### Fixed
+
+- Keep the shared core package inside the BB plugin root so managed Git source
+  builds resolve Effect without repository-level dependency installation.
+- Use the exact `v`-prefixed Git tag in BB install commands.
+- Generate release checksums with portable artifact basenames.
+
 ## [0.1.0] - 2026-08-23
 
 ### Added

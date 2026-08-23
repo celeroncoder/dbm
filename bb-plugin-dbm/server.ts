@@ -12,8 +12,8 @@ import {
   DockerClient,
   DockerClientLive,
   managedToDetectedDatabase
-} from "dbm"
-import type { DatabaseExplorerService } from "dbm"
+} from "@celeroncoder/dbm-core"
+import type { DatabaseExplorerService } from "@celeroncoder/dbm-core"
 import type {
   ColumnInfo,
   ContainerPort,
@@ -26,7 +26,7 @@ import type {
   QueryResult,
   SchemaInfo,
   TableInfo
-} from "dbm"
+} from "@celeroncoder/dbm-core"
 
 const kindSchema = z.enum(["postgres", "mysql", "redis", "mongo"])
 const portSchema = z.object({

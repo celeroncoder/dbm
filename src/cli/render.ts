@@ -5,8 +5,8 @@ import type {
   QueryResult,
   SchemaInfo,
   TableInfo
-} from "../core/model"
-import { displayDatabaseKind } from "../core/discovery"
+} from "../../bb-plugin-dbm/core/src/model"
+import { displayDatabaseKind } from "../../bb-plugin-dbm/core/src/discovery"
 
 const displayCell = (value: string | null): string =>
   value === null ? "NULL" : value.replaceAll("\n", "\\n")

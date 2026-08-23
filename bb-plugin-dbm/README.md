@@ -8,16 +8,16 @@ existing query/schema/table explorer through BB RPC, CLI, and a Databases panel.
 ## Development
 
 ```sh
-npm install --install-links
+npm install
 bb plugin types --check
 npm run check
 npm run test
 npm run build
 ```
 
-The `dbm` file dependency uses `--install-links` so the plugin compiles the
-same core source with one Effect runtime. The root CLI remains Bun-based; the
-plugin uses the Node command runner because BB server plugins run under Node.
+The local core package keeps the plugin and root CLI on the same source and
+Effect runtime. The root CLI remains Bun-based; the plugin uses the Node
+command runner because BB server plugins run under Node.
 
 ## Install locally
 
@@ -46,10 +46,12 @@ the full agent workflow and cleanup contract.
 ## Install a tagged release
 
 ```sh
-bb plugin install git:https://github.com/celeroncoder/dbm.git@0.1.0 --plugin dbm --yes
+bb plugin install git:https://github.com/celeroncoder/dbm.git@v0.1.1 --plugin dbm --yes
 bb plugin list
 bb dbm images
 ```
 
-Tagged installs use the root `.bb/plugins.json` collection manifest and keep
-the plugin aligned with the CLI and reusable core at the same version.
+Tagged installs use the root `.bb/plugins.json` collection manifest. BB builds
+Git plugins from source; the reusable core package lives inside the plugin root
+so npm and the BB bundler resolve Effect without a repository-level dependency
+installation. The root CLI packages and re-exports the same core source.
