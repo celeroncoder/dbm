@@ -65,6 +65,6 @@
     "@effect/vitest": "^4.0.0-beta.107",
     "@types/bun": "^1.4.0",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   }
 }
