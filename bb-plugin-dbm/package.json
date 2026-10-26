@@ -49,6 +49,6 @@
     "cron-parser": "^5.10.0",
     "hono": "^4.11.9",
     "typescript": "7.0.2",
-    "vitest": "4.1.11"
+    "vitest": "4.1.12"
   }
 }
